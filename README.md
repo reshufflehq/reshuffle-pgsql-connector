@@ -2,7 +2,7 @@
 
 [Code](https://github.com/reshufflehq/reshuffle-pgsql-connector) |
 [npm](https://www.npmjs.com/package/reshuffle-pgsql-connector) |
-[Code sample](https://github.com/reshufflehq/reshuffle-pgsql-connector/examples)
+[Code sample](https://github.com/reshufflehq/reshuffle-pgsql-connector/tree/master/examples)
 
 `npm install reshuffle-pgsql-connector`
 
