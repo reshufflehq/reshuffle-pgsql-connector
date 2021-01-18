@@ -8,7 +8,7 @@
 
 ### Reshuffle SQL Connector
 
-This package contains a [Resshufle](https://github.com/reshufflehq/reshuffle)
+This package contains a [Reshuffle](https://github.com/reshufflehq/reshuffle)
 connector to SQL databases.
 
 The following example lists all information from the "users" table:
