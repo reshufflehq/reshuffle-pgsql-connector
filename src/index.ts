@@ -9,7 +9,7 @@ export type Sequence = (query: Query) => any
 
 const URLRE = new RegExp( // postgresql://user:password@host/database
   '^postgres(ql)?:\\/\\/[^:]+(:[^@]+)?@' +
-  '[0-9a-zA-Z_\\-]+(\\.[0-9a-zA-Z_\\-]+)*(\\/[0-9a-zA-Z_\\-]+)?$'
+  '[0-9a-zA-Z_\\-]+(\\.[0-9a-zA-Z_\\-]+)*(:([0-9]+))?(\\/[0-9a-zA-Z_\\-]+)?$'
 )
 
 export class PgsqlConnector extends BaseConnector {
@@ -21,9 +21,9 @@ export class PgsqlConnector extends BaseConnector {
     if (!URLRE.test(options.url)) {
       throw new Error(`Invalid database URL: ${options.url}`)
     }
-    const ssl = options.ssl ? { ssl: { rejectUnauthorized: false } } : {}
+    const ssl = options.ssl && Object.keys(options.ssl).length > 0 ? options.ssl : false
 
-    this.pool = new Pool({ connectionString: options.url, ...ssl })
+    this.pool = new Pool({ connectionString: options.url, ssl: ssl })
   }
 
   // Actions ////////////////////////////////////////////////////////

@@ -6,10 +6,10 @@
 
 `npm install reshuffle-pgsql-connector`
 
-### Reshuffle SQL Connector
+### Reshuffle Postgres SQL Connector
 
 This package contains a [Reshuffle](https://github.com/reshufflehq/reshuffle)
-connector to SQL databases.
+connector to Postgres SQL databases.
 
 The following example lists all information from the "users" table:
 
@@ -47,9 +47,16 @@ _Connector actions_:
 ```js
 const app = new Reshuffle()
 const pg = new PgsqlConnector(app, {
-  url: 'postgres://user[:password]@hostname[:port]/database'
+  url: 'postgres://user[:password]@hostname[:port]/database',
+  ssl: {
+    rejectUnauthorized: false,
+    ca: fs.readFileSync('/path/to/server-certificates/root.crt').toString(),
+    key: fs.readFileSync('/path/to/client-key/postgresql.key').toString(),
+    cert: fs.readFileSync('/path/to/client-certificates/postgresql.crt').toString(),
+  }
 })
 ```
+`ssl` is optional, for more details check the [ssl](https://node-postgres.com/features/ssl) and [TLSSocket](https://nodejs.org/api/tls.html#tls_tls_createsecurecontext_options) links.
 
 #### Connector actions
 
