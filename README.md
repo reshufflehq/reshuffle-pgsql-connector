@@ -45,18 +45,25 @@ _Connector actions_:
 ##### <a name="configuration"></a>Configuration options
 
 ```js
-const app = new Reshuffle()
+const app = new Reshuffle();
 const pg = new PgsqlConnector(app, {
-  url: 'postgres://user[:password]@hostname[:port]/database',
+  url: "postgres://user[:password]@hostname[:port]/database",
+  //Only include ssl option when connecting to a database protected by ssl
   ssl: {
     rejectUnauthorized: false,
-    ca: fs.readFileSync('/path/to/server-certificates/root.crt').toString(),
-    key: fs.readFileSync('/path/to/client-key/postgresql.key').toString(),
-    cert: fs.readFileSync('/path/to/client-certificates/postgresql.crt').toString(),
-  }
-})
+    // Configure any of the relevant options below to your own ssl details
+    ca: fs.readFileSync("/path/to/server-certificates/root.crt").toString(),
+    key: fs.readFileSync("/path/to/client-key/postgresql.key").toString(),
+    cert: fs
+      .readFileSync("/path/to/client-certificates/postgresql.crt")
+      .toString(),
+  },
+});
 ```
-`ssl` is optional, for more details check the [ssl](https://node-postgres.com/features/ssl) and [TLSSocket](https://nodejs.org/api/tls.html#tls_tls_createsecurecontext_options) links.
+
+If connecting to a local database, `ssl` option is not needed and can be left blank.
+
+For more information check the [ssl](https://node-postgres.com/features/ssl) and [TLSSocket](https://nodejs.org/api/tls.html#tls_tls_createsecurecontext_options) documentation.
 
 #### Connector actions
 
