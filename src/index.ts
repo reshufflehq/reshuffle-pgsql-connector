@@ -11,6 +11,7 @@ const URLRE = new RegExp( // postgresql://user:password@host/database
   '^postgres(ql)?:\\/\\/[^:]+(:[^@]+)?@' +
   '[0-9a-zA-Z_\\-]+(\\.[0-9a-zA-Z_\\-]+)*(:([0-9]+))?(\\/[0-9a-zA-Z_\\-]+)?$'
 )
+const MYSQL_PARAM = '?'
 
 export class PgsqlConnector extends BaseConnector {
   private pool?: Pool
@@ -33,13 +34,23 @@ export class PgsqlConnector extends BaseConnector {
     this.pool = undefined
   }
 
-  public async query(sql: string, params?: any[]) {
+  public async query(sql: string, params?: any[]) { 
+    if (params) {
+      sql = this.setParameterizedQuery(sql, params)
+    }
     const res = await this.pool!.query(sql, params)
     return {
       fields: res.fields,
       rows: res.rows,
       rowCount: res.rowCount,
     }
+  }
+
+  private setParameterizedQuery(sql: string, params?: any[]): string {
+    params?.forEach((param, index) => {
+      sql = sql.indexOf(MYSQL_PARAM) ? sql.replace(MYSQL_PARAM, `\$${index + 1}`) : sql
+    })
+    return sql
   }
 
   public async sequence(seq: Sequence) {
